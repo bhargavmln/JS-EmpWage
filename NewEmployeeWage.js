@@ -34,8 +34,63 @@ while (totalEmpHrs <= MAX_HOURS_IN_A_MONTH && totalWorkingDays < TOTAL_WORKING_D
     empDailyWageArr.push(calcDailyWage(empHrs));
 }
 let empWage = calcDailyWage(totalEmpHrs);
-console.log(empDailyWageArr);
-console.log("Total Working Days : " + totalWorkingDays + ", Total Employee Hours : " + totalEmpHrs + ", Employee Wage : " + empWage);
+console.log("UC6 - Total Working Days : " + totalWorkingDays + ", Total Employee Hours : " + totalEmpHrs + ", Employee Wage : " + empWage);
+
+//UC-7A To find total wage using for each and reduce methods 
+let totalEmpWage = 0;
+function sum(dailyWage) {
+    totalEmpWage += dailyWage;
+}
+empDailyWageArr.forEach(sum);
+console.log("UC7A using forEach - Total Employee Wage : " + totalEmpWage);
+
+function totalWages(totalWage, dailyWage) {
+    return totalWage + dailyWage;
+}
+console.log("UC7A using reduce - Total Employee wage: " + empDailyWageArr.reduce(totalWages, 0));
+
+//UC7B - Show day along with daily wage using array map helper function
+let dailyCntr = 0;
+function mapDayWithWage(dailyWage) {
+    dailyCntr++;
+    return dailyCntr + " = " + dailyWage;
+}
+let mapDayWithWageArr = empDailyWageArr.map(mapDayWithWage);
+console.log("UC7B - Daily Wage Map");
+console.log(mapDayWithWageArr);
+
+//UC7C - Show days when full time wage of 160 was earned
+function fulltimeWage(dailyWage) {
+    return dailyWage.includes("160");
+}
+let fullDayWageArr = mapDayWithWageArr.filter(fulltimeWage);
+console.log("UC7C - Daily wage filter when full time wage earned");
+console.log(fullDayWageArr);
+
+//UC7D - Find first occurence when Full Time Wage was earned using fing function
+function findFullTimeWage(dailyWage) {
+    return dailyWage.includes("160");
+}
+console.log("UC7D - First time Full Time wage was earned on day : " +
+    mapDayWithWageArr.find(findFullTimeWage));
+
+//UC7E - Check if every element of full time wage is truley holding full time wage
+function isAllFullTimeWage(dailyWage) {
+    return dailyWage.includes("160");
+}
+console.log("UC7E - Check All Element have Full Time Wage : " +
+    mapDayWithWageArr.some(isAllFullTimeWage));
+
+//UC7F - Check if there is any part time wage
+function isAnyPartTimeWage(dailyWage) {
+    return dailyWage.includes("80");
+}
+console.log("UC 7F - Check if any part time wage: " + mapDayWithWageArr.some(isAnyPartTimeWage));
 
 
-
+//UC7G - Find the number of days the employee worked
+function totalDaysWorked(numOfDays, dailyWage) {
+    if (dailyWage > 0) return numOfDays + 1;
+    return numOfDays;
+}
+console.log("UC 7G - Number of days emp worked: " + empDailyWageArr.reduce(totalDaysWorked, 0));
